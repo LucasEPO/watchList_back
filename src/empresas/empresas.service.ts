@@ -33,6 +33,10 @@ export class EmpresasService {
     return this.empresaRepository.findOneBy({ id });
   }
 
+  findOneByLogin(login: string): Promise<Empresas | undefined> {
+    return this.empresaRepository.findOneBy({ login });
+  }
+
   async update(id: number, updateEmpresaDto: UpdateEmpresaDto): Promise<any> {
     if (updateEmpresaDto.pass_hash) {
       const saltRounds = 10;
