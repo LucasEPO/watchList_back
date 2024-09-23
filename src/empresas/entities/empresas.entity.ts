@@ -1,16 +1,20 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Funcionarios } from 'src/funcionarios/entities/funcionarios.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Empresas {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length : 50 })
   name: string;
 
-  @Column()
+  @Column({ length : 50 })
   login: string;
 
-  @Column()
+  @Column({ length : 255 })
   pass_hash: string;
+
+  @OneToMany(() => Funcionarios, (funcionario) => funcionario.empresa)
+    funcionarios: Funcionarios[];
 }

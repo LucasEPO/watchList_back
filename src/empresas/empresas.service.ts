@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateEmpresaDto } from './dto/create-empresa.dto';
 import { UpdateEmpresaDto } from './dto/update-empresa.dto';
@@ -38,6 +38,10 @@ export class EmpresasService {
   }
 
   async update(id: number, updateEmpresaDto: UpdateEmpresaDto): Promise<any> {
+    const empresa = await this.findOne(id);
+    if(!empresa){
+      throw new NotFoundException(`Empresa com ID ${id} não encontrado!`);
+    }
     if (updateEmpresaDto.pass_hash) {
       const saltRounds = 10;
       updateEmpresaDto.pass_hash = await bcrypt.hash(updateEmpresaDto.pass_hash, saltRounds);
