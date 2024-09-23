@@ -1,5 +1,6 @@
 import { Empresas } from 'src/empresas/entities/empresas.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Relatorios } from 'src/relatorios/entities/relatorio.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Funcionarios {
@@ -15,4 +16,7 @@ export class Funcionarios {
     @ManyToOne(() => Empresas, (empresa) => empresa.funcionarios, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'empresa_id' })
     empresa: Empresas;
+
+    @OneToMany(() => Relatorios, (relatorio) => relatorio.funcionario)
+    relatorios: Relatorios[];
 }

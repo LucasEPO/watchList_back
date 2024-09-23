@@ -1,4 +1,5 @@
 import { Funcionarios } from 'src/funcionarios/entities/funcionarios.entity';
+import { Relatorios } from 'src/relatorios/entities/relatorio.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
@@ -17,4 +18,7 @@ export class Empresas {
 
   @OneToMany(() => Funcionarios, (funcionario) => funcionario.empresa)
     funcionarios: Funcionarios[];
+  
+  @OneToMany(() => Relatorios, (relatorios) => relatorios.empresa)
+    relatorios: Relatorios[];
 }

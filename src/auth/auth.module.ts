@@ -7,11 +7,13 @@ import { jwtConstants } from './constants';
 import { EmpresasService } from 'src/empresas/empresas.service';
 import { AuthGuard } from './auth.guard';
 import { FuncionariosModule } from 'src/funcionarios/funcionarios.module';
+import { RelatoriosModule } from 'src/relatorios/relatorios.module';
 
 @Module({
   imports: [
     EmpresasModule,
     FuncionariosModule,
+    RelatoriosModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
