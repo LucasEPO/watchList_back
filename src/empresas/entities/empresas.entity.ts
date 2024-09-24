@@ -10,7 +10,7 @@ export class Empresas {
   @Column({ length : 50 })
   name: string;
 
-  @Column({ length : 50 })
+  @Column({ length : 50, unique: true})
   login: string;
 
   @Column({ length : 255 })

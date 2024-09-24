@@ -15,9 +15,9 @@ export class FuncionariosService {
   
   async create(createFuncionarioDto: CreateFuncionarioDto) : Promise<Funcionarios> {
     const empresa = await this.empresasService.findOne(createFuncionarioDto.empresa_id);
-    if (!empresa) {
+    if (!empresa) 
       throw new NotFoundException(`Empresa com ID ${createFuncionarioDto.empresa_id} não encontrada!`);
-    }
+    
   
     const funcionario = this.funcionarioRepository.create(createFuncionarioDto);
     funcionario.empresa = empresa; 
@@ -49,9 +49,9 @@ export class FuncionariosService {
     const empresaId = updateFuncionarioDto.empresa_id;
     if (empresaId !== funcionario.empresa.id) {
       const empresa = await this.empresasService.findOne(empresaId);
-      if (!empresa) {
+      if (!empresa) 
         throw new NotFoundException(`Empresa com ID ${empresaId} não encontrado!`);
-      }
+      
       funcionario.empresa = empresa; 
     }
 

@@ -1,15 +1,29 @@
-import { IsOptional, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateEmpresaDto {
-    @IsOptional()
-    @IsString()
-    name?: string;
+  @ApiProperty({
+    description: 'Nome da empresa (opcional)',
+    example: 'Empresa Exemplo',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  name?: string;
 
-    @IsOptional()
-    @IsString()
-    login?: string;
+  @ApiProperty({
+    description: 'Login da empresa',
+    example: 'empresa',
+    required: true, 
+  })
+  @IsString()
+  login: string; 
 
-    @IsOptional()
-    @IsString()
-    pass_hash?: string;
+  @ApiProperty({
+    description: 'Senha da empresa o campo sera criptografado',
+    example: 'Qualquer_senha',
+    required: true, 
+  })
+  @IsString()
+  pass_hash: string; 
 }

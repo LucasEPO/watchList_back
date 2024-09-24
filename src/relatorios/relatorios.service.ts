@@ -79,7 +79,7 @@ export class RelatoriosService {
     }
 
     if(!relatorio.is_finished && updateRelatorioDto.is_finished)
-        relatorio.finished_date = new Date();
+      relatorio.finished_date = new Date();
 
     Object.assign(relatorio, updateRelatorioDto);
 
