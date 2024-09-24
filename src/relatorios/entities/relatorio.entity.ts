@@ -1,3 +1,4 @@
+import { IsOptional } from "class-validator";
 import { Empresas } from "src/empresas/entities/empresas.entity";
 import { Funcionarios } from "src/funcionarios/entities/funcionarios.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -11,22 +12,24 @@ export class Relatorios {
     title: string;
 
     @Column() 
-    isFinished: boolean;
-
+    @IsOptional()
+    is_finished: boolean;
+    
     @Column() 
-    isPriority: boolean;
+    @IsOptional()
+    is_priority: boolean;
 
     @Column('text') 
-    completeForm: string;
+    complete_form: string;
     
     @Column('datetime') 
-    createDate: Date;
+    create_date: Date;
 
-    @Column('datetime') 
-    finishedDate: Date;
+    @Column({type: 'datetime', nullable: true}) 
+    finished_date: Date;
     
     @Column('datetime') 
-    lastUpdate: Date;
+    last_update: Date;
     
     @ManyToOne(() => Funcionarios, (funcionario) => funcionario.relatorios, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'funcionario_id' })

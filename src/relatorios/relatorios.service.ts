@@ -27,7 +27,12 @@ export class RelatoriosService {
 
     const relatorio = await this.relatoriosRepository.create({
       ...createRelatorioDto,
-      completeForm: JSON.stringify(createRelatorioDto.completeForm),
+      complete_form: JSON.stringify(createRelatorioDto.complete_form),
+      is_finished: createRelatorioDto.is_finished || false, 
+      is_priority: createRelatorioDto.is_priority || true, 
+      create_date: createRelatorioDto.create_date || new Date(), 
+      finished_date: createRelatorioDto.finished_date || null,
+      last_update: createRelatorioDto.last_update || new Date(), 
     });
     relatorio.empresa = empresa;
     relatorio.funcionario = funcionario;
@@ -45,7 +50,7 @@ export class RelatoriosService {
   findOne(id: number): Promise<Relatorios> {
     return this.relatoriosRepository.findOne({
       where: { id },
-      relations: ['empresa', 'funcionarios'] 
+      relations: ['empresa', 'funcionario'] 
     });
   }
 
@@ -73,8 +78,15 @@ export class RelatoriosService {
       relatorio.funcionario = funcionario; 
     }
 
+    if(!relatorio.is_finished && updateRelatorioDto.is_finished)
+        relatorio.finished_date = new Date();
+
     Object.assign(relatorio, updateRelatorioDto);
-    relatorio.completeForm = JSON.stringify(updateRelatorioDto.completeForm);
+
+    if(updateRelatorioDto.complete_form)
+      relatorio.complete_form = JSON.stringify(updateRelatorioDto.complete_form);
+
+    relatorio.last_update = new Date();
 
     const relatorioUpdated = await this.relatoriosRepository.save(relatorio);
     return relatorioUpdated;

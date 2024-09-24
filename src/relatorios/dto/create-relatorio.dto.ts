@@ -7,27 +7,27 @@ export class CreateRelatorioDto {
   
     @IsBoolean()
     @IsOptional()
-    isFinished: boolean;
+    is_finished: boolean;
   
     @IsBoolean()
     @IsOptional()
-    isPriority: boolean;
+    is_priority: boolean;
     
     @IsString()
     @IsOptional()
-    completeForm: string;
+    complete_form: string;
     
     @IsDate()
     @IsOptional()
-    createDate: Date;
+    create_date: Date;
     
     @IsDate()
     @IsOptional()
-    finishedDate: Date;
+    finished_date: Date;
     
     @IsDate()
     @IsOptional()
-    lastUpdate: Date;
+    last_update: Date;
     
     @IsInt()
     @IsOptional()
