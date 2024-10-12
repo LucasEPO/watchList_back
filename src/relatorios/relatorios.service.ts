@@ -81,6 +81,9 @@ export class RelatoriosService {
     if(!relatorio.is_finished && updateRelatorioDto.is_finished)
       relatorio.finished_date = new Date();
 
+    if(relatorio.is_finished && updateRelatorioDto.is_finished === false)
+      relatorio.finished_date = null;
+
     Object.assign(relatorio, updateRelatorioDto);
 
     if(updateRelatorioDto.complete_form)

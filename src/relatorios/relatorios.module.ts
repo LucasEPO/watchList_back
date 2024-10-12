@@ -12,8 +12,8 @@ import { FuncionariosService } from 'src/funcionarios/funcionarios.service';
 @Module({
   imports: [
     forwardRef(() => AuthModule),
+    forwardRef(() => EmpresasModule),
     DatabaseModule,
-    EmpresasModule,
     FuncionariosModule,
   ],
   controllers: [RelatoriosController],

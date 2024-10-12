@@ -6,7 +6,10 @@ import { EmpresasProviders } from './empresas.providers';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule, forwardRef(() => AuthModule)],
+  imports: [
+    forwardRef(() => AuthModule),
+    DatabaseModule,
+  ],
   controllers: [EmpresasController],
   providers: [
     ...EmpresasProviders,

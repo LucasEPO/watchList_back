@@ -30,14 +30,22 @@ export class EmpresasController {
   findOne(@Param('id') id: string) {
     return this.empresasService.findOne(+id);
   }
-
+  
+  
   @Get('login/:login')
   @ApiOperation({ summary: 'Busca por uma empresa pelo login' })
   @ApiParam({ name: 'login', description: 'Login da empresa', required: true, example: 'Exemplo' })
   findOneByLogin(@Param('login') login: string) {
     return this.empresasService.findOneByLogin(login);
   }
-
+  
+  @Get('relatorios/:id')
+  @ApiOperation({ summary: 'Reotrna todos relatorios de uma empresa' })
+  @ApiParam({ name: 'id', description: 'Id da empresa', required: true, example: 1 })
+  findAllReports(@Param('id') id: string) {
+    return this.empresasService.findAllReports(+id);
+  }
+  
   @Patch(':id')
   @ApiOperation({ summary: 'Atualizar os dados de uma empresa' })
   @ApiParam({ name: 'id', description: 'O id da empresa a ser atualizada' })
