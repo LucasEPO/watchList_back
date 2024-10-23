@@ -1,10 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateRelatorioDto } from './dto/create-relatorio.dto';
 import { UpdateRelatorioDto } from './dto/update-relatorio.dto';
 import { Repository } from 'typeorm';
 import { Relatorios } from './entities/relatorio.entity';
 import { EmpresasService } from 'src/empresas/empresas.service';
 import { FuncionariosService } from 'src/funcionarios/funcionarios.service';
+import { CreateRelatorioReactDto } from './dto/create-relatorio-react.dto';
 
 @Injectable()
 export class RelatoriosService {
@@ -15,31 +15,41 @@ export class RelatoriosService {
     private readonly funcionariosService: FuncionariosService
   ) {}
 
-  async create(createRelatorioDto: CreateRelatorioDto) {
-    const empresa = await this.empresasService.findOne(createRelatorioDto.empresa_id);
+  async create(createRelatorioDto: CreateRelatorioReactDto) {
+    const empresa = await this.empresasService.findOne(createRelatorioDto.enterpriseId);
     if (!empresa) 
-      throw new NotFoundException(`Empresa com ID ${createRelatorioDto.empresa_id} não encontrada!`);
-    
+      throw new NotFoundException(`Empresa com ID ${createRelatorioDto.enterpriseId} não encontrada!`);
 
-    const funcionario = await this.funcionariosService.findOne(createRelatorioDto.funcionario_id);
+    console.log(empresa);
+    console.log(createRelatorioDto);
+
+    const funcionario = await this.funcionariosService.findOne(createRelatorioDto.employeeId); 
     if (!funcionario) 
-      throw new NotFoundException(`Funcionario com ID ${createRelatorioDto.funcionario_id} não encontrada!`);
+      throw new NotFoundException(`Funcionario com ID ${createRelatorioDto.employeeId} não encontrada!`);
 
-    const relatorio = await this.relatoriosRepository.create({
-      ...createRelatorioDto,
-      complete_form: JSON.stringify(createRelatorioDto.complete_form),
-      is_finished: createRelatorioDto.is_finished || false, 
-      is_priority: createRelatorioDto.is_priority || true, 
-      create_date: createRelatorioDto.create_date || new Date(), 
-      finished_date: createRelatorioDto.finished_date || null,
-      last_update: createRelatorioDto.last_update || new Date(), 
+    const relatorio = this.relatoriosRepository.create({
+      title: createRelatorioDto.title,
+      department: createRelatorioDto.department,
+      equipament: createRelatorioDto.equipment,
+      description: createRelatorioDto.description,
+      workshift: createRelatorioDto.workshift,
+      prevention_action: createRelatorioDto.preventionAction || null,
+      risk_action: createRelatorioDto.riskAction || null,
+      is_finished: createRelatorioDto.isFinished || false, 
+      is_priority: createRelatorioDto.isPriority || true, 
+      date: createRelatorioDto.date || new Date(),
+      finished_date: createRelatorioDto.finishDate || null, 
+      create_date: new Date(),
+      last_update: null,
+      empresa: empresa,
+      funcionario: funcionario,
     });
-    relatorio.empresa = empresa;
-    relatorio.funcionario = funcionario;
-    
+
+    console.log(relatorio);
+
     const relatorioSaved = await this.relatoriosRepository.save(relatorio);
     return relatorioSaved;
-  }
+}
 
   findAll(): Promise<Relatorios[]> {
     return this.relatoriosRepository.find({
@@ -85,9 +95,6 @@ export class RelatoriosService {
       relatorio.finished_date = null;
 
     Object.assign(relatorio, updateRelatorioDto);
-
-    if(updateRelatorioDto.complete_form)
-      relatorio.complete_form = JSON.stringify(updateRelatorioDto.complete_form);
 
     relatorio.last_update = new Date();
 

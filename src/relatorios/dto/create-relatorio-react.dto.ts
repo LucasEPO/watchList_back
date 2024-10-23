@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsInt, IsNotEmpty, IsOptional, IsString, IsDate } from 'class-validator';
 
-export class CreateRelatorioDto {
+export class CreateRelatorioReactDto {
   @ApiProperty({
     description: 'Titulo do relatorio',
     example: 'Relatorio de Seguranca',
+    required: true
   })
   @IsString()
   @IsNotEmpty()
@@ -17,7 +18,7 @@ export class CreateRelatorioDto {
     required: false,
   })
   @IsBoolean()
-  is_finished?: boolean;
+  isFinished?: boolean;
 
   @ApiProperty({
     description: 'Indica se o relatorio deve ter prioridade',
@@ -25,7 +26,7 @@ export class CreateRelatorioDto {
     default: false,
   })
   @IsBoolean()
-  is_priority?: boolean;
+  isPriority?: boolean;
 
   @ApiProperty({
     description: 'Descrição do que viu como risco',
@@ -42,7 +43,7 @@ export class CreateRelatorioDto {
   })
   @IsOptional()
   @IsString()
-  prevention_action?: string;
+  preventionAction?: string;
 
   @ApiProperty({
     description: 'Descricao de alguma ação que possa ser tomada para solucionar o problema',
@@ -51,7 +52,7 @@ export class CreateRelatorioDto {
   })
   @IsOptional()
   @IsString()
-  risk_action?: string;
+  riskAction?: string;
   
   @ApiProperty({
     description: 'Local onde há o risco relatado',
@@ -69,7 +70,7 @@ export class CreateRelatorioDto {
   })
   @IsOptional()
   @IsString()
-  equipament?: string;
+  equipment?: string;
   
   @ApiProperty({
     description: 'Turno de trabalho o qual foi observado o risco',
@@ -88,15 +89,6 @@ export class CreateRelatorioDto {
   @IsDate()
   @IsOptional()
   date: Date;
-  
-  @ApiProperty({
-    description: 'Data de criacao do relatorio',
-    example: '2024-09-24T10:00:00Z',
-    default: () => new Date().toISOString(),
-    required: true
-  })
-  @IsDate()
-  create_date: Date;
 
   @ApiProperty({
     description: 'Data de finalizacao do relatorio (opcional)',
@@ -106,30 +98,21 @@ export class CreateRelatorioDto {
   })
   @IsDate()
   @IsOptional()
-  finished_date?: Date;
-
-  @ApiProperty({
-    description: 'Data da ultima atualizacao do relatorio (opcional)',
-    example: '2024-09-24T10:00:00Z',
-    required: false,
-    default: null,
-  })
-  @IsDate()
-  @IsOptional()
-  last_update?: Date;
+  finishDate?: Date;
 
   @ApiProperty({
     description: 'ID do funcionario que criou o relatorio',
     example: 1,
-    required: false,
+    required: true,
   })
   @IsInt()
-  funcionario_id?: number;
+  employeeId?: number;
 
   @ApiProperty({
     description: 'ID da empresa associada ao relatorio',
     example: 1,
+    required: true,
   })
   @IsInt()
-  empresa_id?: number;
+  enterpriseId?: number;
 }

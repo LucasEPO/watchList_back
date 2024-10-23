@@ -20,15 +20,33 @@ export class Relatorios {
     is_priority: boolean;
 
     @Column('text') 
-    complete_form: string;
+    description: string;
+    
+    @Column('text') 
+    prevention_action: string;
+    
+    @Column('text') 
+    risk_action: string;
+    
+    @Column({ length : 1 }) 
+    workshift: string;
+    
+    @Column({ length : 60, nullable: true }) 
+    department: string;
+    
+    @Column({ length : 60, nullable: true }) 
+    equipament: string;
     
     @Column('datetime') 
     create_date: Date;
+    
+    @Column('datetime') 
+    date: Date;
 
     @Column({type: 'datetime', nullable: true}) 
     finished_date: Date;
     
-    @Column('datetime') 
+    @Column({type: 'datetime', nullable: true}) 
     last_update: Date;
     
     @ManyToOne(() => Funcionarios, (funcionario) => funcionario.relatorios, { onDelete: 'CASCADE' })

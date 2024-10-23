@@ -40,6 +40,12 @@ export class FuncionariosService {
     });
   }
 
+  async findFuncionariosByEmpresa(empresaId: number):  Promise<Funcionarios[]> {
+    return this.funcionarioRepository.find({
+      where: { empresa: { id: empresaId } },
+    });
+  }
+
   async update(id: number, updateFuncionarioDto: UpdateFuncionarioDto): Promise<any> {
     const funcionario = await this.findOne(id);
     if (!funcionario) {

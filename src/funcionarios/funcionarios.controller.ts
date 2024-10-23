@@ -29,6 +29,13 @@ export class FuncionariosController {
     return this.funcionariosService.findOne(+id);
   }
 
+  @Get('/empresa/:id')
+  @ApiOperation({ summary: 'Busca por todos os funcionario de uma empresa' })
+  @ApiParam({ name: 'id', description: 'Id da empresa', required: true, example: 1 })
+  findAllOfOneEnterprise(@Param('id') id: string) {
+    return this.funcionariosService.findFuncionariosByEmpresa(+id);
+  }
+
   @Patch(':id')
   @ApiOperation({ summary: 'Atualizar os dados de um funcionario' })
   @ApiParam({ name: 'id', description: 'O id do funcionario a ser atualizado' })
