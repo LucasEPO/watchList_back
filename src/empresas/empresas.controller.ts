@@ -46,6 +46,13 @@ export class EmpresasController {
     return this.empresasService.findAllReports(+id);
   }
   
+  @Get('funcionarios/:id')
+  @ApiOperation({ summary: 'Reotrna todos funcionarios de uma empresa' })
+  @ApiParam({ name: 'id', description: 'Id da empresa', required: true, example: 1 })
+  findAllEmployees(@Param('id') id: string) {
+    return this.empresasService.findAllEmployees(+id);
+  }
+  
   @Patch(':id')
   @ApiOperation({ summary: 'Atualizar os dados de uma empresa' })
   @ApiParam({ name: 'id', description: 'O id da empresa a ser atualizada' })

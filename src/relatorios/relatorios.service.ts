@@ -5,6 +5,7 @@ import { Relatorios } from './entities/relatorio.entity';
 import { EmpresasService } from 'src/empresas/empresas.service';
 import { FuncionariosService } from 'src/funcionarios/funcionarios.service';
 import { CreateRelatorioReactDto } from './dto/create-relatorio-react.dto';
+import { UpdateRelatorioReactDto } from './dto/update-relatorio-react.dto';
 
 @Injectable()
 export class RelatoriosService {
@@ -19,9 +20,6 @@ export class RelatoriosService {
     const empresa = await this.empresasService.findOne(createRelatorioDto.enterpriseId);
     if (!empresa) 
       throw new NotFoundException(`Empresa com ID ${createRelatorioDto.enterpriseId} não encontrada!`);
-
-    console.log(empresa);
-    console.log(createRelatorioDto);
 
     const funcionario = await this.funcionariosService.findOne(createRelatorioDto.employeeId); 
     if (!funcionario) 
@@ -45,8 +43,6 @@ export class RelatoriosService {
       funcionario: funcionario,
     });
 
-    console.log(relatorio);
-
     const relatorioSaved = await this.relatoriosRepository.save(relatorio);
     return relatorioSaved;
 }
@@ -64,34 +60,38 @@ export class RelatoriosService {
     });
   }
 
-  async update(id: number, updateRelatorioDto: UpdateRelatorioDto): Promise<any> {
+  async update(id: number, updateRelatorioDto: UpdateRelatorioReactDto): Promise<any> {
     const relatorio = await this.findOne(id);
     if (!relatorio) 
       throw new NotFoundException(`Relatorio com ID ${id} não encontrado!`);
     
 
-    const empresaId = updateRelatorioDto.empresa_id;
-    if (empresaId !== relatorio.empresa.id) {
-      const empresa = await this.empresasService.findOne(empresaId);
-      if (!empresa) 
-        throw new NotFoundException(`Empresa com ID ${empresaId} não encontrado!`);
-      
-      relatorio.empresa = empresa; 
+    if (updateRelatorioDto.enterpriseId){
+      const empresaId = updateRelatorioDto.enterpriseId;
+      if (empresaId !== relatorio.empresa.id) {
+        const empresa = await this.empresasService.findOne(empresaId);
+        if (!empresa) 
+          throw new NotFoundException(`Empresa com ID ${empresaId} não encontrado!`);
+        
+        relatorio.empresa = empresa; 
+      }
     }
 
-    const funcionarioId = updateRelatorioDto.funcionario_id;
-    if (funcionarioId !== relatorio.funcionario.id) {
-      const funcionario = await this.funcionariosService.findOne(funcionarioId);
-      if (!funcionario) 
-        throw new NotFoundException(`Funcionario com ID ${funcionarioId} não encontrado!`);
-      
-      relatorio.funcionario = funcionario; 
+    if (updateRelatorioDto.employeeId){
+      const funcionarioId = updateRelatorioDto.employeeId;
+      if (funcionarioId !== relatorio.funcionario.id) {
+        const funcionario = await this.funcionariosService.findOne(funcionarioId);
+        if (!funcionario) 
+          throw new NotFoundException(`Funcionario com ID ${funcionarioId} não encontrado!`);
+        
+        relatorio.funcionario = funcionario; 
+      }
     }
 
-    if(!relatorio.is_finished && updateRelatorioDto.is_finished)
+    if(!relatorio.is_finished && updateRelatorioDto.isFinished)
       relatorio.finished_date = new Date();
 
-    if(relatorio.is_finished && updateRelatorioDto.is_finished === false)
+    if(relatorio.is_finished && updateRelatorioDto.isFinished === false)
       relatorio.finished_date = null;
 
     Object.assign(relatorio, updateRelatorioDto);

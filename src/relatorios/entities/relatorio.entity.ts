@@ -22,10 +22,10 @@ export class Relatorios {
     @Column('text') 
     description: string;
     
-    @Column('text') 
+    @Column('text', {nullable: true} ) 
     prevention_action: string;
     
-    @Column('text') 
+    @Column('text', {nullable: true}) 
     risk_action: string;
     
     @Column({ length : 1 }) 

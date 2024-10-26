@@ -5,6 +5,7 @@ import { UpdateEmpresaDto } from './dto/update-empresa.dto';
 import { Empresas } from './entities/empresas.entity';
 import * as bcrypt from 'bcrypt';
 import { Relatorios } from 'src/relatorios/entities/relatorio.entity';
+import { Funcionarios } from 'src/funcionarios/entities/funcionarios.entity';
 
 @Injectable()
 export class EmpresasService {
@@ -48,6 +49,18 @@ export class EmpresasService {
       throw new Error('Empresa não encontrada');
     
     return empresa.relatorios || []; 
+  }
+  
+  async findAllEmployees(id: number): Promise<Funcionarios[]> {
+    const empresa = await this.empresaRepository.findOne({
+      where: { id },
+      relations: ['funcionarios'],
+    });
+
+    if (!empresa) 
+      throw new Error('Empresa não encontrada');
+    
+    return empresa.funcionarios || []; 
   }
 
   async update(id: number, updateEmpresaDto: UpdateEmpresaDto): Promise<any> {
