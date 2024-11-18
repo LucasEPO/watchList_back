@@ -17,9 +17,9 @@ export class RelatoriosService {
   ) {}
 
   async create(createRelatorioDto: CreateRelatorioReactDto) {
-    const empresa = await this.empresasService.findOne(createRelatorioDto.enterpriseId);
+    const empresa = await this.empresasService.findOne(createRelatorioDto.companyId);
     if (!empresa) 
-      throw new NotFoundException(`Empresa com ID ${createRelatorioDto.enterpriseId} não encontrada!`);
+      throw new NotFoundException(`Empresa com ID ${createRelatorioDto.companyId} não encontrada!`);
 
     const funcionario = await this.funcionariosService.findOne(createRelatorioDto.employeeId); 
     if (!funcionario) 
@@ -66,8 +66,8 @@ export class RelatoriosService {
       throw new NotFoundException(`Relatorio com ID ${id} não encontrado!`);
     
 
-    if (updateRelatorioDto.enterpriseId){
-      const empresaId = updateRelatorioDto.enterpriseId;
+    if (updateRelatorioDto.companyId){
+      const empresaId = updateRelatorioDto.companyId;
       if (empresaId !== relatorio.empresa.id) {
         const empresa = await this.empresasService.findOne(empresaId);
         if (!empresa) 

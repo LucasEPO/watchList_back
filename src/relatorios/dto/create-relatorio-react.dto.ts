@@ -114,5 +114,5 @@ export class CreateRelatorioReactDto {
     required: true,
   })
   @IsInt()
-  enterpriseId?: number;
+  companyId?: number;
 }
