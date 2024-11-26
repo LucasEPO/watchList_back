@@ -4,6 +4,8 @@ import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
 import { Funcionarios } from './entities/funcionarios.entity';
 import { Repository } from 'typeorm';
 import { EmpresasService } from 'src/empresas/empresas.service';
+import { CreateFuncionarioReactDto } from './dto/create-funcionario-react.dto';
+import { UpdateFuncionarioReactDto } from './dto/update-funcionario-react.dto';
 
 @Injectable()
 export class FuncionariosService {
@@ -13,14 +15,18 @@ export class FuncionariosService {
     private readonly empresasService: EmpresasService
   ) {}
   
-  async create(createFuncionarioDto: CreateFuncionarioDto) : Promise<Funcionarios> {
-    const empresa = await this.empresasService.findOne(createFuncionarioDto.empresa_id);
+  async create(createFuncionarioDto: CreateFuncionarioReactDto) : Promise<Funcionarios> {
+    console.log(createFuncionarioDto);
+    console.log(createFuncionarioDto.companyId);
+    const empresa = await this.empresasService.findOne(createFuncionarioDto.companyId);
+    console.log(empresa);
     if (!empresa) 
-      throw new NotFoundException(`Empresa com ID ${createFuncionarioDto.empresa_id} não encontrada!`);
+      throw new NotFoundException(`Empresa com ID ${createFuncionarioDto.companyId} não encontrada!`);
     
   
     const funcionario = this.funcionarioRepository.create(createFuncionarioDto);
     funcionario.empresa = empresa; 
+    console.log(funcionario);
   
     const funcionarioSaved = await this.funcionarioRepository.save(funcionario);
   
@@ -46,13 +52,13 @@ export class FuncionariosService {
     });
   }
 
-  async update(id: number, updateFuncionarioDto: UpdateFuncionarioDto): Promise<any> {
+  async update(id: number, updateFuncionarioDto: UpdateFuncionarioReactDto): Promise<any> {
     const funcionario = await this.findOne(id);
     if (!funcionario) {
       throw new NotFoundException(`Funcionario com ID ${id} não encontrado!`);
     }
 
-    const empresaId = updateFuncionarioDto.empresa_id;
+    const empresaId = updateFuncionarioDto.companyId;
     if (empresaId !== funcionario.empresa.id) {
       const empresa = await this.empresasService.findOne(empresaId);
       if (!empresa) 
