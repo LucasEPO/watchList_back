@@ -16,17 +16,13 @@ export class FuncionariosService {
   ) {}
   
   async create(createFuncionarioDto: CreateFuncionarioReactDto) : Promise<Funcionarios> {
-    console.log(createFuncionarioDto);
-    console.log(createFuncionarioDto.companyId);
     const empresa = await this.empresasService.findOne(createFuncionarioDto.companyId);
-    console.log(empresa);
     if (!empresa) 
       throw new NotFoundException(`Empresa com ID ${createFuncionarioDto.companyId} não encontrada!`);
     
   
     const funcionario = this.funcionarioRepository.create(createFuncionarioDto);
     funcionario.empresa = empresa; 
-    console.log(funcionario);
   
     const funcionarioSaved = await this.funcionarioRepository.save(funcionario);
   
